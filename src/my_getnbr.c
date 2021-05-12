@@ -7,73 +7,71 @@
 
 #include "my_crd.h"
 
-int is_alpha(const char c)
+int     is_num_or_sign(char c)
 {
-   if ((c >= 'a' && c <= 'z') ||
-       (c >= 'A' && c <= 'Z'))
+    if ((c >= '0') && (c <= '9'))
         return 1;
+    else if ((c == '+') || (c == '-'))
+        return 2;
     else
-        return 0; 
+        return 0;
 }
 
-int is_num(const char c)
+int     is_out_of_bound(int nb)
 {
-    if (c >= '0' && c <= '9')
+    if (((unsigned int)nb <= 0) || ((unsigned int)nb > 4294967294))
         return 1;
     else
         return 0;
 }
 
-int get_sign(const char *str)
+int     get_sign(char *str)
 {
     int i = 0;
-    int count = 0;
+    int sign = 0;
 
-    while (str[i] && (is_num(str[i]) == 0)) {
-        if (str[i] == '-') {
-            count++;
+    while (is_num_or_sign(str[i]) == 2) {
+        if (str[i] == '-')
+            sign++;
+        i++;
+    }
+    if ((sign % 2) == 0)
+        return (1);
+    else
+        return (-1);
+}
+
+int     check_validity(char *str)
+{
+    int i = 0;
+
+    while (is_num_or_sign(str[i]) == 2) {
+        if (is_num_or_sign(str[i]) == 0) {
+            return (-1);
         }
         i++;
     }
-    return (count % 2);
+    return (i);
 }
 
-int check_char(const char *str)
+unsigned int     my_getnbr(char *str)
 {
-    int i = 0;
-
-    while (str[i]) {
-        if (str[i] == '-' || str[i] == '+')
-            i++;
-        if (is_alpha(str[i]) == 1 && ((is_num(str[i + 1]) == 1) ||
-            (str[i - 1] == '-') || (str[i - 1] == '+')) && str[i + 1])
-            return 1;
-        i++;
-    }
-    return 0;
-}
-
-unsigned int my_getnbr(char *str)
-{
-    int i = 0;
-    unsigned int number = 0;
+    int i = check_validity(str);
+    int nb = 0;
     int sign = get_sign(str);
-    int limit = 0;
 
-    if (check_char(str) == 1)
-        return 0;
-    while (str[i]) {
-        if ((number >= 429496729 && (str[i] - '0' > 5) && (sign == 0)))
-            return 0;
-        if (is_num(str[i]) == 1) {
-            number += str[i] - '0';
-            limit++;
-            if (is_num(str[i + 1]) == 1)
-                number *= 10;
+    if (i == -1) {
+        return (0);
+    } else {
+        while (is_num_or_sign(str[i]) == 1) {
+            nb = nb + str[i] - 48;
+            if (is_num_or_sign(str[i + 1]) == 1)
+                nb = nb * 10;
+            i++;
         }
-        i++;
+        nb = nb * sign;
+        if (is_out_of_bound(nb) == 1)
+            return (0);
+        return (nb);
     }
-    if (sign == 1)
-        number *= -1;
-    return (number);
 }

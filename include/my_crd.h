@@ -32,10 +32,10 @@ void            print_list(linked_list_t *);
 **  my_getnbr.c
 */
 
-int             is_alpha(const char);
-int             is_num(const char);
-int             get_sign(const char *);
-int             check_char(const char *);
+int             is_num_or_sign(char);
+int             is_out_of_bound(int);
+int             get_sign(char *);
+int             check_validity(char *);
 unsigned int    my_getnbr(char *);
 
 /*
@@ -43,7 +43,7 @@ unsigned int    my_getnbr(char *);
 */
 
 linked_list_t   *my_push_front_to_list(unsigned int, unsigned int, linked_list_t *);
-linked_list_t   *my_delete_nodes(unsigned int, linked_list_t *);
+void            my_delete_nodes(unsigned int, linked_list_t **);
 unsigned int    my_find_node(unsigned int, linked_list_t *);
 linked_list_t   *my_change_value_list(unsigned int, unsigned int, linked_list_t *);
 
@@ -63,6 +63,7 @@ int             my_strisnum(char *);
 
 int             is_alphanum(char);
 int             is_neg(char *);
+int             is_num(char);
 int             getnb_word(char *);
 char            **my_str_to_word_array(char *);
 

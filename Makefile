@@ -1,4 +1,4 @@
-##  
+##
 ## ETNA PROJECT, 29/10/2020 by yu_t
 ## [...]
 ## File description:

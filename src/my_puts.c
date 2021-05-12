@@ -45,9 +45,11 @@ void    print_list(linked_list_t *list)
     linked_list_t   *new_list = list;
 
     while (new_list) {
+        my_putstr("key = ");
         my_putnbr(new_list->key);
         if (new_list->value) {
             my_putchar(' ');
+            my_putstr(" value = ");
             my_putnbr(new_list->value);
         }
         new_list = new_list->next;

@@ -23,19 +23,25 @@ linked_list_t   *my_push_front_to_list(unsigned int key, unsigned int value,
     return new_list;
 }
 
-linked_list_t    *my_delete_nodes(unsigned int key, linked_list_t *list)
+void            my_delete_nodes(unsigned int key, linked_list_t **list)
 {
-    linked_list_t   *new_list = list;
+    linked_list_t   *new_list = *list;
+    linked_list_t   *tmp;
 
-    while (new_list) {
-        if (new_list && (new_list->key == key)) {
-            linked_list_t   *tmp = new_list->next;
-            free(new_list);
-            new_list->next = tmp;
-        }
+    if (new_list && (new_list->key == key)) {
+        *list = new_list->next;
+        free(new_list);
+        return;
+    }
+
+    while ((new_list) && (new_list->key != key)) {
+        tmp = new_list;
         new_list = new_list->next;
     }
-    return new_list;
+    if (new_list == NULL)
+        return;
+    tmp->next = new_list->next;
+    free(new_list);
 }
 
 unsigned int    my_find_node(unsigned int key, linked_list_t *list)
